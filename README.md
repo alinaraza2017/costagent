@@ -108,7 +108,7 @@ Frontend, from `frontend`:
 npm test
 ```
 
-The latest backend run on 26 October 2026 was **39 passed, 0 failed**. The frontend suite was **5 passed, 0 failed**. Details, including the three required security demonstrations, are in [docs/SECURITY_TEST_REPORT.md](docs/SECURITY_TEST_REPORT.md).
+The latest backend run on 16 November 2026 was **47 passed, 0 failed**. The frontend suite was **6 passed, 0 failed**. Details, including the three required security demonstrations, are in [docs/SECURITY_TEST_REPORT.md](docs/SECURITY_TEST_REPORT.md). The full lab report (Parts A–C and the quality engineering tasks) is in [docs/LAB_MIDTERM_REPORT.md](docs/LAB_MIDTERM_REPORT.md), with a Word copy in `docs/LAB_MIDTERM_REPORT.docx`.
 
 While both servers are running, from the `backend` directory, you can repeat a live check that does not print the access token:
 

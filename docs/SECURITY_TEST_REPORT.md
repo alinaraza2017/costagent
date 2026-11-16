@@ -10,7 +10,7 @@ cd backend
 .venv\Scripts\python.exe -m pytest -v --tb=line
 ```
 
-Result: **39 passed, 0 failed**. The final run, after the Swagger UI was exempted from the JSON content security policy, completed with exit code 0. One deprecation warning came from Starlette's test client and is unrelated to the assertions.
+Result: **47 passed, 0 failed** (re-run 16 November 2026, Python 3.13). The 26 October run, after the Swagger UI was exempted from the JSON content security policy, completed with exit code 0. One deprecation warning came from Starlette's test client and is unrelated to the assertions.
 
 Frontend, from `frontend`:
 
@@ -18,7 +18,7 @@ Frontend, from `frontend`:
 npm test
 ```
 
-Result: **5 passed, 0 failed** (Vitest 3.0.5). The tests cover percentage formatting, rejection of a negative cost, rejection of an end date before the start date, and the labeled sign-in form.
+Result: **6 passed, 0 failed** (Vitest 3.0.5). The tests cover percentage formatting, rejection of a negative cost, rejection of an end date before the start date, and the labeled sign-in form.
 
 The isolated test database and the accounts created inside the tests are discarded with the temporary file. No real user data was used.
 
@@ -126,4 +126,4 @@ Related import tests in `backend/tests/test_imports.py` also passed: formula tex
 - The application was not deployed to a public host in this run.
 - HTTPS, a production secret store, database backups, and a reverse-proxy rate limit were not exercised. They remain unchecked deployment-checklist items.
 - The oversized-upload test uses a lowered limit so the suite stays small. The same size check enforces the 5 MB default outside tests.
-- Frontend component tests passed separately: 5 passed, 0 failed. They do not replace the API security tests above.
+- Frontend component tests passed separately: 6 passed, 0 failed. They do not replace the API security tests above.
