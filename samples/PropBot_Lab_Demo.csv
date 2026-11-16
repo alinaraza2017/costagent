@@ -1,0 +1,40 @@
+expense_name,category,description,estimated_cost,actual_cost,expense_date,vendor,optimistic_cost,most_likely_cost,pessimistic_cost
+Project kickoff,Personnel,WBS 1.1. Finished on budget.,165000.00,165000.00,2026-04-21,Project Manager,132000.00,165000.00,264000.00
+Requirement elicitation,Personnel,WBS 1.2. Finished on budget.,90000.00,90000.00,2026-04-28,Business Analyst,72000.00,90000.00,144000.00
+Feasibility and model selection,Personnel,WBS 1.3. Finished on budget.,225000.00,225000.00,2026-05-05,AI Developer,180000.00,225000.00,360000.00
+Scope and requirement specification,Personnel,WBS 1.4. Finished on budget.,165000.00,165000.00,2026-05-12,Business Analyst,132000.00,165000.00,264000.00
+System architecture,Personnel,WBS 3.1. Finished over the estimate. Variance = 324000 - 300000.,300000.00,324000.00,2026-06-02,Software Architect,240000.00,300000.00,440000.00
+Database schema,Personnel,WBS 3.2. Finished over the estimate. Variance = 231000 - 220000.,220000.00,231000.00,2026-06-16,Backend Developer,176000.00,220000.00,330000.00
+UI wireframes,Personnel,WBS 3.3. Finished on budget.,270000.00,270000.00,2026-06-23,Frontend Developer,216000.00,270000.00,396000.00
+FastAPI auth and roles,Personnel,WBS 5.1.1. Finished over the estimate. Variance = 346000 - 330000.,330000.00,346000.00,2026-07-14,Backend Developer,264000.00,330000.00,484000.00
+Project vault backend,Personnel,WBS 5.1.2. Finished over the estimate. Variance = 484000 - 440000.,440000.00,484000.00,2026-08-11,Backend Developer,352000.00,440000.00,660000.00
+RFP parser,Personnel,WBS 5.2.1. Finished over the estimate. Variance = 700000 - 625000.,625000.00,700000.00,2026-09-15,AI Developer,500000.00,625000.00,950000.00
+Compliance matrix,Personnel,WBS 5.2.2. Finished under the estimate. Variance = 418000 - 440000.,440000.00,418000.00,2026-10-13,Backend Developer,352000.00,440000.00,660000.00
+RAG pipeline earned by 25 Oct 2026,Personnel,"WBS 5.2.3 is 70 percent complete. Full budget is 750000. This estimate is the earned value, 525000. Actual spend is 604000.",525000.00,604000.00,2026-10-27,AI Developer,420000.00,525000.00,787500.00
+RAG pipeline not yet earned,Personnel,"WBS 5.2.3 remainder. Not earned by 25 Oct 2026, so actual is kept equal to this remaining estimate.",225000.00,225000.00,2026-10-27,AI Developer,180000.00,225000.00,337500.00
+HLD diagrams earned by 25 Oct 2026,Personnel,WBS 5.2.4 is 40 percent complete. Full budget is 270000. Spend matches the earned value.,108000.00,108000.00,2026-11-03,Frontend Developer,86400.00,108000.00,158400.00
+HLD diagrams not yet earned,Personnel,WBS 5.2.4 remainder. Actual is kept equal to the remaining estimate.,162000.00,162000.00,2026-11-03,Frontend Developer,129600.00,162000.00,237600.00
+React frontend,Personnel,WBS 5.3.1. Not started by 25 Oct 2026. Actual is kept equal to the estimate.,360000.00,360000.00,2026-12-01,Frontend Developer,288000.00,360000.00,540000.00
+Export engines,Personnel,WBS 5.3.2. Not started. Actual is kept equal to the estimate.,330000.00,330000.00,2026-12-22,Backend Developer,264000.00,330000.00,484000.00
+Integration testing,Personnel,WBS 7.1. Not started. Actual is kept equal to the estimate.,180000.00,180000.00,2027-01-05,QA Engineer,144000.00,180000.00,270000.00
+RAGAS evaluation labour,Personnel,WBS 7.2. Not started. Actual is kept equal to the estimate.,250000.00,250000.00,2027-01-19,AI Developer,200000.00,250000.00,375000.00
+User acceptance testing labour,Personnel,WBS 7.3. Not started. Actual is kept equal to the estimate.,180000.00,180000.00,2027-01-26,QA Engineer,144000.00,180000.00,288000.00
+Bug fixes,Personnel,WBS 7.4. Not started. Actual is kept equal to the estimate.,235000.00,235000.00,2027-02-02,Backend Developer,188000.00,235000.00,376000.00
+Docker deployment and documentation,Personnel,WBS 8.1. Not started. Actual is kept equal to the estimate.,148000.00,148000.00,2027-02-08,Backend Developer,111000.00,148000.00,222000.00
+Final presentation,Personnel,WBS 8.2. Not started. Actual is kept equal to the estimate.,30000.00,30000.00,2027-02-10,Project Manager,30000.00,30000.00,45000.00
+Open-source tools,Software & Tools,"VS Code, GitHub, Jira, and the open-source stack. Estimate is 0, so percentage variance is N/A.",0.00,0.00,2026-04-15,Open-source / internal,0.00,0.00,0.00
+GPT-4o-mini input tokens,AI / Cloud API,"10 million tokens a month for 10 months at 0.15 USD, converted at 280 PKR per USD.",4200.00,4200.00,2026-08-12,OpenAI,4200.00,4200.00,4200.00
+GPT-4o-mini output tokens,AI / Cloud API,"2 million tokens a month for 10 months at 0.60 USD, converted at 280 PKR per USD.",3360.00,3360.00,2026-08-12,OpenAI,3360.00,3360.00,3360.00
+Embedding tokens,AI / Cloud API,"5 million tokens a month for 10 months at 0.02 USD, converted at 280 PKR per USD.",280.00,280.00,2026-08-12,OpenAI,280.00,280.00,280.00
+Prepaid API credit,AI / Cloud API,One 20 USD top-up converted at 280 PKR per USD.,5600.00,5600.00,2026-08-12,OpenAI,5600.00,5600.00,5600.00
+"Developer laptops, existing",Hardware & Infrastructure,Depreciation of 3 laptops over the 10 project months. Not a new purchase.,208333.33,208333.33,2026-04-15,Estimated / To be confirmed,208333.33,208333.33,208333.33
+"On-premise server, existing",Hardware & Infrastructure,Depreciation of the existing server over the 10 project months.,62500.00,62500.00,2026-04-15,Estimated / To be confirmed,62500.00,62500.00,62500.00
+Android test phone,Hardware & Infrastructure,Depreciation of one test phone over the 10 project months.,25000.00,25000.00,2026-04-15,Estimated / To be confirmed,25000.00,25000.00,25000.00
+Internet,Hardware & Infrastructure,"5000 PKR a month for each of 3 members, for 10 months.",150000.00,150000.00,2026-04-15,Estimated / To be confirmed,150000.00,150000.00,150000.00
+Electricity,Hardware & Infrastructure,"3000 PKR a month for each of 3 members, for 10 months.",90000.00,90000.00,2026-04-15,Estimated / To be confirmed,90000.00,90000.00,90000.00
+Backup SSD,Hardware & Infrastructure,One 1 TB backup drive.,18000.00,18000.00,2026-04-15,Estimated / To be confirmed,18000.00,18000.00,18000.00
+RAGAS API budget,Testing,15 USD evaluation budget converted at 280 PKR per USD. Testing has not started.,4200.00,4200.00,2026-12-23,Estimated / To be confirmed,4200.00,4200.00,4200.00
+UAT travel,Testing,Four trips at 2000 PKR. UAT has not started.,8000.00,8000.00,2027-01-20,Estimated / To be confirmed,8000.00,8000.00,8000.00
+Requirement travel,Documentation & Handover,Three elicitation trips at 2000 PKR.,6000.00,6000.00,2026-04-22,Estimated / To be confirmed,6000.00,6000.00,6000.00
+Printing and binding,Documentation & Handover,Six bound copies at 2500 PKR.,15000.00,15000.00,2027-02-03,Estimated / To be confirmed,15000.00,15000.00,15000.00
+Demo-day poster,Documentation & Handover,Poster and demo-day material.,6000.00,6000.00,2027-02-09,Estimated / To be confirmed,6000.00,6000.00,6000.00

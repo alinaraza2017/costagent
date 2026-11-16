@@ -1,0 +1,6 @@
+expense_name,category,description,estimated_cost,actual_cost,expense_date,vendor
+Campus router refresh,Equipment,Replace two lab routers,180000,175000,2026-03-12,NetSupply
+Lab assistant stipend,Personnel,March stipend for the helpdesk,80000,80000,2026-03-31,Campus HR
+Cloud hosting,Software,Staging environment for one term,45000,62000,2026-04-02,CloudHost
+Field workshop travel,Travel,Faculty workshop tickets,30000,27500,2026-04-18,City Coach
+Poster printing,Marketing,Orientation week posters,12000,9000,2026-05-04,PrintRoom

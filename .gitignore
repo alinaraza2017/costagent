@@ -1,0 +1,29 @@
+# Secrets and local configuration
+.env
+backend/.env
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+backend/.venv/
+backend/data/*.db
+*.db
+
+# Node
+node_modules/
+frontend/dist/
+frontend/node_modules/
+coverage/
+
+# OS and editor
+.DS_Store
+Thumbs.db
+*.log
+
+# Generated screenshots can be committed; local tool caches should not
+.vite/

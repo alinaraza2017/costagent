@@ -1,0 +1,1 @@
+"""CostWise AI backend application."""
