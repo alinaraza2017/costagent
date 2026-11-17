@@ -10,7 +10,7 @@ cd backend
 .venv\Scripts\python.exe -m pytest -v --tb=line
 ```
 
-Result: **47 passed, 0 failed** (re-run 16 November 2026, Python 3.13). The 26 October run, after the Swagger UI was exempted from the JSON content security policy, completed with exit code 0. One deprecation warning came from Starlette's test client and is unrelated to the assertions.
+Result: **48 passed, 0 failed** (re-run 17 November 2026, Python 3.13; the 48th test covers hosted PostgreSQL URLs). Earlier runs: 47 passed on 16 November. The 26 October run, after the Swagger UI was exempted from the JSON content security policy, completed with exit code 0. One deprecation warning came from Starlette's test client and is unrelated to the assertions.
 
 Frontend, from `frontend`:
 
@@ -121,9 +121,21 @@ Related import tests in `backend/tests/test_imports.py` also passed: formula tex
 | `test_project_summary_uses_aggregate_percentage` | Aggregate percentage is 2.97 for the 10/40 and 1000/1000 example, not the average of the row percentages. | Pass |
 | `test_rule_based_anomaly_needs_peers_and_flags_outlier` | No anomaly is flagged for a tiny sample. A 900,000 actual is flagged among five closer equipment costs, and the reason says it is not evidence of fraud. | Pass |
 
-## What this run does not prove
+## Repeat on the live deployment
 
-- The application was not deployed to a public host in this run.
-- HTTPS, a production secret store, database backups, and a reverse-proxy rate limit were not exercised. They remain unchecked deployment-checklist items.
+On 17 November 2026 the three required demonstrations were repeated against the deployed site, https://costagent.vercel.app, with `backend/scripts/live_security_demo.py` (`COSTWISE_URL=https://costagent.vercel.app`). Fictional users `alice2@example.com` and `bob2@example.com` were used, and the test project was deleted afterwards.
+
+| Test | Live result | Status |
+| --- | --- | --- |
+| Invalid file upload | `payload.exe` and an EXE renamed to `.csv` both returned HTTP 400; 0 expenses stored | Pass |
+| Unauthorized project access | Read, expense list, PDF export and delete of another user's project returned HTTP 403 with no project name in the body; no token returned HTTP 401 | Pass |
+| Excessive requests | Login attempts 1–5 returned HTTP 401, attempts 6–7 returned HTTP 429; `/api/health` stayed HTTP 200 | Pass |
+
+The live site also sends HTTPS with `Strict-Transport-Security`, `X-Content-Type-Options: nosniff` and `X-Frame-Options: DENY`.
+
+## What these runs do not prove
+
+- On Vercel each serverless instance keeps its own rate-limit counter, so the login limit is weaker against an attack spread over many instances. Shared rate-limit storage remains future work.
+- Database backups and their restore were not exercised. They remain an unchecked deployment-checklist item.
 - The oversized-upload test uses a lowered limit so the suite stays small. The same size check enforces the 5 MB default outside tests.
 - Frontend component tests passed separately: 6 passed, 0 failed. They do not replace the API security tests above.

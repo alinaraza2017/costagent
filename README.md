@@ -1,24 +1,50 @@
 # CostWise AI
 
-CostWise AI is a local web application for reviewing fictional project costs. You can register, keep projects and cost records, import CSV or Excel files, compare estimated and actual amounts, read rule-based cost insights, and download PDF or CSV reports. The API checks that each user can reach only their own projects.
+CostWise AI is a web application for reviewing project costs. You can register, keep projects and cost records, import CSV or Excel files, see variance and percentage variance worked out automatically, compare costs in charts, get an AI cost summary that flags unusual expenses, and download PDF or CSV reports. The API checks that each user can reach only their own projects.
 
-This repository was built as a university lab project. It has not been deployed to a public host.
+This repository is a university lab project for the Software Quality Engineering lab midterm (BS SE VII, COMSATS University Islamabad).
+
+## Live demo
+
+**https://costagent.vercel.app**
+
+Sign in with the fictional demo account:
+
+- Email: `demo@costwise.local`
+- Password: `DemoPass123!`
+
+Use only fictional data on the demo site. The first request after a quiet period can take a few seconds while the server starts.
+
+![Cost comparison charts](docs/screenshots/report/09-charts.png)
+
+## Lab report
+
+The full submission report covers Part A (development), Part B (cybersecurity analysis), Part C (deployment and reflection) and SQE Tasks 1–3 (error–fault–failure analysis, SQA/SQC/SQP, and the McCall, Boehm and FURPS quality models):
+
+- [docs/LAB_MIDTERM_REPORT.pdf](docs/LAB_MIDTERM_REPORT.pdf), the version to read or submit
+- [docs/LAB_MIDTERM_REPORT.docx](docs/LAB_MIDTERM_REPORT.docx), the editable Word copy
+- [docs/LAB_MIDTERM_REPORT.md](docs/LAB_MIDTERM_REPORT.md), the source text
+- [docs/SECURITY_TEST_REPORT.md](docs/SECURITY_TEST_REPORT.md), detailed security test results, including the live re-run
 
 ## What you need
 
-- Windows 10 or 11
-- Python 3.11
-- Node.js 20 or newer (this project was checked with Node 24)
-- PowerShell
+To run it on your own computer:
+
+- Python 3.11 or newer
+- Node.js 20 or newer
+- Windows, macOS or Linux (the commands below use PowerShell; on macOS or Linux use `source .venv/bin/activate` and `cp` instead)
 
 Optional: Docker Desktop, if you want to run the compose file.
 
 ## Project layout
 
-- `backend/` FastAPI application, SQLite database, and pytest suite
+- `backend/` FastAPI application, SQLite/PostgreSQL models, and the pytest suite
+- `backend/scripts/live_security_demo.py` runs the three required security tests against a local or deployed instance
 - `frontend/` React, TypeScript, and Vite interface
-- `samples/cost_import_template.csv` fictional import file
-- `docs/SECURITY_TEST_REPORT.md` results from the automated security tests
+- `api/index.py`, `vercel.json`, `requirements.txt` and `.vercelignore` deploy the frontend and API as one Vercel project
+- `render.yaml` is an alternative setup for hosting the API on Render
+- `samples/` fictional import files
+- `docs/` lab report, security test report, and screenshots
 - `.env.example` placeholders only
 
 ## Configure the environment
@@ -31,10 +57,10 @@ Copy-Item .env.example .env
 
 Open `.env` and replace `SECRET_KEY` with a long random string. Leave `LLM_API_KEY` empty to use the local rule-based analysis. Do not commit `.env`.
 
-SQLite is the local database. The file is created at `backend/data/costwise.db`. To use PostgreSQL later, install a PostgreSQL driver and set:
+SQLite is the local database. The file is created at `backend/data/costwise.db`. To use PostgreSQL, set `DATABASE_URL`. The driver (`psycopg`) is already in the requirements, and `postgres://` or `postgresql://` URLs from hosts such as Neon or Render are accepted as they are:
 
 ```text
-DATABASE_URL=postgresql+psycopg://USER:PASSWORD@HOST:5432/costwise
+DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/costwise
 ```
 
 The SQLAlchemy models stay the same. Do not use a temporary disk for production financial records.
@@ -61,7 +87,7 @@ The seed command creates one fictional account if it does not already exist:
 - Email: `demo@costwise.local`
 - Password: `DemoPass123!`
 
-Use that account only on your own machine. Create a normal account from the registration page when you want a separate user.
+Create a normal account from the registration page when you want a separate user.
 
 API documentation is at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
 
@@ -108,7 +134,22 @@ Frontend, from `frontend`:
 npm test
 ```
 
-The latest backend run on 16 November 2026 was **47 passed, 0 failed**. The frontend suite was **6 passed, 0 failed**. Details, including the three required security demonstrations, are in [docs/SECURITY_TEST_REPORT.md](docs/SECURITY_TEST_REPORT.md). The full lab report (Parts A–C and the quality engineering tasks) is in [docs/LAB_MIDTERM_REPORT.md](docs/LAB_MIDTERM_REPORT.md), with a Word copy in `docs/LAB_MIDTERM_REPORT.docx`.
+The latest backend run on 17 November 2026 was **48 passed, 0 failed**. The frontend suite was **6 passed, 0 failed**. Details, including the three required security demonstrations, are in [docs/SECURITY_TEST_REPORT.md](docs/SECURITY_TEST_REPORT.md).
+
+To show the three required security tests (invalid upload, unauthorized project access, excessive requests), run this from `backend`. It takes about a minute, because it waits before the login test:
+
+```powershell
+python scripts\live_security_demo.py
+```
+
+To run it against the live site, set the target first:
+
+```powershell
+$env:COSTWISE_URL = "https://costagent.vercel.app"
+python scripts\live_security_demo.py
+```
+
+It uses fictional accounts and deletes its test project at the end.
 
 While both servers are running, from the `backend` directory, you can repeat a live check that does not print the access token:
 
@@ -168,7 +209,7 @@ The key stays on the server. The analysis request sends totals, category names, 
 - Unexpected errors return a generic message. Logs pass through a redaction filter, and audit records store event types and ids rather than passwords, tokens, or amounts.
 - Authentication uses the Authorization header, not a cookie, so a browser will not attach the token on a cross-site request. A cookie-based design would also need CSRF protection.
 
-The Security Center page separates these implemented controls from later production work such as HTTPS at a proxy, a managed secret store, and database backups.
+On the live Vercel site, HTTPS is enforced with `Strict-Transport-Security`, and the secrets live in Vercel's environment settings. The Security Center page separates the implemented controls from later production work such as tested database backups and shared rate-limit storage.
 
 ## Dependency review
 
@@ -198,21 +239,23 @@ docker compose up --build
 
 The compose file publishes the API on port 8000 and the Vite dev server on port 5173. The SQLite file is stored in a Docker volume, not in a container layer that disappears on every start. This is a local demonstration setup, not a production deployment.
 
-## Production notes
+## Deployment (Vercel)
 
-A suitable production layout is:
+The live site runs on Vercel as one project. The React build is served as static files, and the FastAPI app runs as a Python serverless function under `/api`. The database is Neon PostgreSQL, connected through Vercel Storage.
 
-- The built frontend (`npm run build`) on a static host or Nginx
-- This FastAPI app on a Python host behind HTTPS
-- PostgreSQL with a persistent volume, a dedicated database user, and backups that have been restored in a test
-- `SECRET_KEY` and `LLM_API_KEY` in the host's secret store
-- `CORS_ORIGINS` set to the real frontend origin only
-- `DEBUG=false`
-- Rate limits repeated at the reverse proxy
-- The deployment checklist in Security Center reviewed and marked by a person
+To deploy your own copy:
 
-No public deployment was performed for this project.
+1. Import this repository on vercel.com (**Add New → Project**). Leave the root directory as the repository root. `vercel.json` sets the build.
+2. Open **Storage → Create Database → Neon (PostgreSQL)** and connect it to the project. This sets `DATABASE_URL`.
+3. Under **Settings → Environment Variables**, add `SECRET_KEY` (a long random value) and `MAX_UPLOAD_BYTES=4000000` (Vercel accepts request bodies up to 4.5 MB). `LLM_API_KEY` is optional.
+4. Redeploy and open `/api/health`. The tables and the demo account are created on the first request.
+
+Notes:
+
+- Vercel's file system is read-only, so a PostgreSQL database is required there. SQLite is for local use only.
+- Each serverless instance keeps its own rate-limit counter. Shared storage such as Redis would make the limits exact across instances.
+- Before real use, remove the demo account or change its password, and work through the deployment checklist in Security Center.
 
 ## Screenshots
 
-Local page screenshots are in `docs/screenshots/`. They show sign-in, registration, the dashboard, projects, a project cost table, import, charts, rule-based insights, reports, the Security Center, settings, and the Swagger UI.
+Screenshots of every page, every security test and the live site are in `docs/screenshots/report/`. They also appear in the lab report. Older local screenshots are in `docs/screenshots/`.
