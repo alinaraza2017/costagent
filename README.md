@@ -2,7 +2,15 @@
 
 CostWise AI is a web application for reviewing project costs. You can register, keep projects and cost records, import CSV or Excel files, see variance and percentage variance worked out automatically, compare costs in charts, get an AI cost summary that flags unusual expenses, and download PDF or CSV reports. The API checks that each user can reach only their own projects.
 
-This repository is a university lab project for the Software Quality Engineering lab midterm (BS SE VII, COMSATS University Islamabad).
+This repository is a university lab project for the Software Quality Engineering lab midterm at COMSATS University Islamabad (BSSE VII-A), submitted to Ma'am Lailma Javed on 17 November 2026.
+
+## Team
+
+| Name | Registration No. |
+|---|---|
+| Alina Raza | FA23-BSE-015 |
+| Anna Munir | FA23-BSE-019 |
+| Ayesha Noor | FA23-BSE-025 |
 
 ## Live demo
 
@@ -21,9 +29,9 @@ Use only fictional data on the demo site. The first request after a quiet period
 
 The full submission report covers Part A (development), Part B (cybersecurity analysis), Part C (deployment and reflection) and SQE Tasks 1–3 (error–fault–failure analysis, SQA/SQC/SQP, and the McCall, Boehm and FURPS quality models):
 
-- [docs/LAB_MIDTERM_REPORT.pdf](docs/LAB_MIDTERM_REPORT.pdf), the version to read or submit
-- [docs/LAB_MIDTERM_REPORT.docx](docs/LAB_MIDTERM_REPORT.docx), the editable Word copy
-- [docs/LAB_MIDTERM_REPORT.md](docs/LAB_MIDTERM_REPORT.md), the source text
+- [docs/SQE_Lab_Midterm_Report_FA23-BSE-015_019_025.pdf](docs/SQE_Lab_Midterm_Report_FA23-BSE-015_019_025.pdf), the final submitted report
+- [docs/SQE_Lab_Midterm_Report_FA23-BSE-015_019_025.docx](docs/SQE_Lab_Midterm_Report_FA23-BSE-015_019_025.docx), the same report in Word
+- [docs/LAB_MIDTERM_REPORT.md](docs/LAB_MIDTERM_REPORT.md), the report's source text
 - [docs/SECURITY_TEST_REPORT.md](docs/SECURITY_TEST_REPORT.md), detailed security test results, including the live re-run
 
 ## What you need
