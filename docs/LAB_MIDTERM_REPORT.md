@@ -19,19 +19,15 @@ Lab Midterm Project Report — Software Quality Engineering
 :::
 
 ::: {custom-style="Cover Small"}
-BS SE – VII Semester
+BSSE VII-A
 :::
 
 ::: {custom-style="Cover Info"}
-**Submitted by:** ______________________________
+**By:** Alina Raza (FA23-BSE-015), Anna Munir (FA23-BSE-019), Ayesha Noor (FA23-BSE-025)
 :::
 
 ::: {custom-style="Cover Info"}
-**Registration No.:** __________________________
-:::
-
-::: {custom-style="Cover Info"}
-**Submitted to:** Lailma Javed
+**Submitted to:** Ma'am Lailma Javed
 :::
 
 ::: {custom-style="Cover Info"}
@@ -83,7 +79,7 @@ The system also has strong security, because cost data is private business infor
 | Reports | ReportLab (PDF), Python csv | Creates downloadable reports |
 | Testing | pytest (backend), Vitest (frontend), Playwright (browser checks) | Automatic testing of features and security |
 
-# Part A — Development
+# Part A: Development
 
 ## System design
 
@@ -235,7 +231,7 @@ These were not required, but they make the system more useful:
 
 ![Figure 18: All 6 frontend tests passed](screenshots/report/23-frontend-tests.png){width=75%}
 
-# Part B — Cybersecurity Analysis
+# Part B: Cybersecurity Analysis
 
 ## Cyber threats, attack scenarios and prevention
 
@@ -335,7 +331,7 @@ The automatic test suite has **14 security tests**. They cover these three tests
 
 ![Figure 23: 14 automatic security tests passed](screenshots/report/21-pytest-security.png){width=90%}
 
-# Part C — Deployment and Reflection
+# Part C: Deployment and Reflection
 
 ## Deployment
 
@@ -429,7 +425,7 @@ The test users created for Figure 28 (alice2@example.com and bob2@example.com) a
 - **Wrong input gives wrong output.** If the estimates are wrong, the variance and the AI findings will also be wrong.
 - **People must decide.** The AI is a helper. A person must review its findings before any money decision.
 
-# Task 1 — Error, Fault and Failure Analysis
+# Task 1: Error, Fault and Failure Analysis
 
 ## What do error, fault and failure mean?
 
@@ -513,7 +509,7 @@ In a later version, a developer adds a new "Export CSV" button by copying the PD
 | 8 | Zero-estimate crash | Medium | Page stops working, but no wrong data | **Boundary value test:** estimate = 0, 0.01 and a very large value |
 | 9 | Typing mistake | Medium | One wrong row | **Acceptance testing** with real users; the unusual-cost flag |
 
-# Task 2 — Software Quality Engineering Activities
+# Task 2: Software Quality Engineering Activities
 
 ## SQA, SQC and SQP: what is the difference?
 
@@ -662,7 +658,7 @@ The three activities form a cycle:
 
 This is the same as the **Plan → Do → Check → Act** cycle. Example from this project: an SQA audit noticed that the documents said 39 tests when there were really 48. The documents were corrected, and checking the test count was added to the release review.
 
-# Task 3 — Software Product Quality Models
+# Task 3: Software Product Quality Models
 
 ## McCall's quality model
 
@@ -766,7 +762,7 @@ The quality engineering work traced how human errors become faults and failures.
 
 **Main limitations and next steps:** finish the rest of the production checklist (tested database backups, shared rate-limit storage, removing the public demo account for real use); move the login token to a secure cookie; add two-factor login; fix the reported npm package warnings; and improve the AI so it can also detect costs that are split into many small payments.
 
-# Appendix A — How to Run the Project
+# Appendix A: How to Run the Project
 
 **Backend** (in one terminal):
 
@@ -795,7 +791,7 @@ Open http://localhost:5173 and sign in with the demo account: **demo@costwise.lo
 
 **Run the live security demo** (while the backend is running): `python scripts/live_security_demo.py` in the `backend` folder.
 
-# Appendix B — Submission Checklist
+# Appendix B: Submission Checklist
 
 | Required item | Where to find it | Status |
 |---|---|---|
