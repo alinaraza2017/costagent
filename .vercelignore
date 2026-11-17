@@ -1,0 +1,8 @@
+.env
+backend/.env
+backend/.venv
+backend/data
+backend/tests
+frontend/node_modules
+docs
+*.db
