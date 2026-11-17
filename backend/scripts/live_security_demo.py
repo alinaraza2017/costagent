@@ -2,15 +2,19 @@
 
 Run while the backend is on http://127.0.0.1:8000:
     python scripts/live_security_demo.py
+Against the deployed site:
+    COSTWISE_URL=https://costagent.vercel.app python scripts/live_security_demo.py
 Uses only fictional accounts. Waits about a minute before test 3 so the
 earlier sign-ins do not count toward the login rate limit.
 """
+import os
 import httpx
-c=httpx.Client(base_url="http://127.0.0.1:8000",timeout=30)
+BASE = os.environ.get("COSTWISE_URL", "http://127.0.0.1:8000")
+c=httpx.Client(base_url=BASE,timeout=90)
 def tok(e):
     c.post("/api/auth/register",json={"email":e,"full_name":e.split("@")[0].title(),"password":"TestPass123!"})
     return {"Authorization":"Bearer "+c.post("/api/auth/login",json={"email":e,"password":"TestPass123!"}).json()["access_token"]}
-print("$ python live_security_demo.py   (fictional users alice2@example.com and bob2@example.com)\n")
+print(f"$ python live_security_demo.py   target: {BASE}\n  (fictional users alice2@example.com and bob2@example.com)\n")
 a=tok("alice2@example.com"); b=tok("bob2@example.com")
 pid=c.post("/api/projects",headers=a,json={"name":"Alice Private Project","description":"","start_date":"2026-01-01","budget":5000,"currency":"PKR","status":"active"}).json()["id"]
 print("TEST 1  Invalid file upload")
@@ -26,3 +30,4 @@ print("TEST 3  Excessive requests (rapid wrong logins, limit 5/minute)")
 for i in range(1,8):
     r=c.post("/api/auth/login",json={"email":"nobody@example.com","password":"wrong"}); print(f"  login attempt {i} -> HTTP {r.status_code}  {r.json()['detail']}")
 print(f"  /api/health after limit -> HTTP {c.get('/api/health').status_code}")
+c.delete(f"/api/projects/{pid}",headers=a)  # remove the test project again

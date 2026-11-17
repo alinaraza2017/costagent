@@ -327,7 +327,9 @@ Three security tests were carried out with **fake (safe) test data**: invented u
 
 ![Figure 21: Test 3 in the browser — too many login attempts are blocked](screenshots/report/19-st3-rate-limit.png){width=55%}
 
-![Figure 22: All three security tests run against the live local server](screenshots/report/22-live-security-demo.png){width=90%}
+![Figure 22: All three security tests run against the local server](screenshots/report/22-live-security-demo.png){width=90%}
+
+The same three tests were repeated on the **live website** after deployment, with the same results (see Part C, Figure 28).
 
 The automatic test suite has **14 security tests**. They cover these three tests and also SQL injection, XSS, expired login tokens, AI prompt injection and unsafe CSV export. All 14 passed.
 
@@ -337,27 +339,58 @@ The automatic test suite has **14 security tests**. They cover these three tests
 
 ## Deployment
 
-**Where it runs now.** The prototype was run and demonstrated in a **controlled local environment** (a laptop), which the brief allows. All the screenshots in this report come from that run.
+The prototype is **deployed online** and anyone can open it:
 
-**Online deployment on Vercel.** The project is ready to be deployed online on **Vercel**. Vercel can host both parts in one project:
+**Live website: <https://costagent.vercel.app>**
 
-- the React frontend as a normal website,
-- the FastAPI backend as a serverless function under `/api`.
+Demo sign-in: **demo@costwise.local** / **DemoPass123!** (fictional data only)
 
-The setup files are in the repository (`vercel.json`, `api/index.py`, `requirements.txt`). The full build was tested with Vercel's own build tool and it completed successfully.
+**How it is hosted.** Both parts of the system run on **Vercel**, in one project:
 
-**Steps to deploy**
+| Part | Where it runs on Vercel | Address |
+|---|---|---|
+| Frontend (React pages) | Static website on Vercel's global network | https://costagent.vercel.app |
+| Backend (FastAPI) | Python serverless function | https://costagent.vercel.app/api/... |
+| Database | Neon PostgreSQL, connected through Vercel Storage | Private, not public |
 
-1. Push the code to GitHub.
-2. On vercel.com, click **Add New → Project** and import the repository. Leave the root folder as it is.
-3. Open **Storage → Create Database → Neon (PostgreSQL)** and connect it to the project. Vercel sets `DATABASE_URL` automatically.
-4. In **Settings → Environment Variables**, add `SECRET_KEY` (a long random value) and `MAX_UPLOAD_BYTES=4000000`.
-5. Redeploy, then open `https://<project-name>.vercel.app/api/health` to check that the API is running.
-6. Sign in with the demo account and test every page.
+Because the pages and the API share one address, the browser never has to call a different website, which keeps the setup simple and safe. The setup files are in the repository: `vercel.json`, `api/index.py` and `requirements.txt`.
 
-**Live URL:** `https://______________________.vercel.app` *(add the address after deploying)*
+**Steps that were followed**
 
-**Other option.** A `render.yaml` file is also included for deploying the backend on Render, if a separate server is preferred.
+1. The code was pushed to GitHub.
+2. On vercel.com: **Add New → Project**, then the repository was imported (root folder unchanged).
+3. **Storage → Create Database → Neon (PostgreSQL)** was connected to the project. Vercel set `DATABASE_URL` automatically.
+4. In **Settings → Environment Variables**, `SECRET_KEY` (a long random value) and `MAX_UPLOAD_BYTES=4000000` were added.
+5. The project was redeployed and checked at `/api/health`.
+
+**Checks on the live website (17 November 2026)**
+
+| Check | Result |
+|---|---|
+| Home page and page links (e.g. /projects) open | HTTP 200 |
+| API health check `/api/health` | `{"status":"ok"}` |
+| HTTPS with Strict-Transport-Security, nosniff and frame-deny headers | Present |
+| Demo sign-in | Works (under 1 second) |
+| Project totals | Same as the local run: Rs 1,433,000 estimated, Rs 2,192,500 actual, +53.00% |
+| AI insights | "Over budget"; the emergency firewall appliance is flagged as unusual |
+| PDF report and sample CSV download | Work |
+| Security tests 1–3 | All passed (Figure 28) |
+
+![Figure 24: Live sign-in page on https://costagent.vercel.app](screenshots/report/24-live-login.png){width=80%}
+
+![Figure 25: Live dashboard](screenshots/report/25-live-dashboard.png){width=95%}
+
+![Figure 26: AI insights running on the live website](screenshots/report/26-live-ai-insights.png){width=95%}
+
+![Figure 27: Live API health check](screenshots/report/27-live-health.png){width=90%}
+
+![Figure 28: The three security tests repeated against the live website — all passed](screenshots/report/28-live-vercel-security.png){width=95%}
+
+Figures 1–23 were taken on a local copy running the same code. Figures 24–28 come from the live website.
+
+The test users created for Figure 28 (alice2@example.com and bob2@example.com) are fictional, and the test project was deleted again after the run.
+
+**Other option.** A `render.yaml` file is also included for hosting the backend on Render, if a separate always-on server is preferred later.
 
 ## Security controls: done and future work
 
@@ -369,12 +402,12 @@ The setup files are in the repository (`vercel.json`, `api/index.py`, `requireme
 | Input checks on every request (no negative costs, valid dates, length limits) | — |
 | Safe database queries (no SQL injection) | A database user with the fewest possible permissions |
 | File upload checks (type, content, size, rows, macros, formulas) with preview | Virus scanning of uploaded files |
-| Rate limits on login, register, import, AI and reports | A firewall in front of the app with shared rate limits for all servers |
+| Rate limits on login, register, import, AI and reports | Shared rate-limit storage (e.g. Redis): on Vercel each server copy keeps its own count, so a large attack spread over many copies could get more tries |
 | Security headers, CORS limited to known sites, safe error messages | Central log monitoring with alerts |
+| HTTPS with HSTS on the live Vercel site; secrets stored in Vercel's environment settings | Regular, tested database backups |
 | Secret key and AI key kept in environment variables, never in code | Automatic key rotation |
 | Safe AI use: no descriptions sent, answer format checked, fallback, warning | A person approves AI text before it goes into official reports |
 | 14 automatic security tests | Automatic dependency scanning on every code change |
-| — | HTTPS everywhere, regular tested database backups |
 
 ## How AI improves the Excel workflow
 
@@ -727,11 +760,11 @@ CostWise AI meets all five Part A requirements:
 
 All 48 backend and 6 frontend tests passed.
 
-The security analysis found eight threats, ranked the three most harmful, gave a 15-point deployment checklist, and proved three security tests with safe data. The system was demonstrated locally and is prepared for online deployment on Vercel.
+The security analysis found eight threats, ranked the three most harmful, gave a 15-point deployment checklist, and proved three security tests with safe data. The system was tested locally and is now deployed online at https://costagent.vercel.app, where the security tests were repeated and passed.
 
 The quality engineering work traced how human errors become faults and failures. It defined a quality plan with SQA and SQC activities and applied the McCall, Boehm and FURPS models. FURPS was chosen as the best fit.
 
-**Main limitations and next steps:** complete the online deployment and the production checklist (HTTPS, backups, a secret store); move the login token to a secure cookie; add two-factor login; fix the reported npm package warnings; and improve the AI so it can also detect costs that are split into many small payments.
+**Main limitations and next steps:** finish the rest of the production checklist (tested database backups, shared rate-limit storage, removing the public demo account for real use); move the login token to a secure cookie; add two-factor login; fix the reported npm package warnings; and improve the AI so it can also detect costs that are split into many small payments.
 
 # Appendix A — How to Run the Project
 
@@ -754,6 +787,8 @@ npm install
 npm run dev
 ```
 
+**Live version:** https://costagent.vercel.app (no setup needed).
+
 Open http://localhost:5173 and sign in with the demo account: **demo@costwise.local** / **DemoPass123!**
 
 **Run the tests:** `pytest` in the `backend` folder, and `npm test` in the `frontend` folder.
@@ -765,8 +800,8 @@ Open http://localhost:5173 and sign in with the demo account: **demo@costwise.lo
 | Required item | Where to find it | Status |
 |---|---|---|
 | Source code | GitHub repository: `backend/` and `frontend/` folders | Done |
-| Working prototype or demonstration | Local demo (Appendix A); Vercel setup ready (Part C) | Done |
-| Screenshots | Figures 1–23 in this report; `docs/screenshots/report/` | Done |
+| Working prototype or demonstration | Live at https://costagent.vercel.app; local demo (Appendix A) | Done |
+| Screenshots | Figures 1–28 in this report; `docs/screenshots/report/` | Done |
 | Cybersecurity threat-and-mitigation table | Part B | Done |
 | Short report on design, tests and limitations | This report | Done |
 | Error–fault–failure table with scenarios and corrective actions | Task 1 | Done |
