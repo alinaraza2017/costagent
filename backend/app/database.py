@@ -18,6 +18,11 @@ class Base(DeclarativeBase):
 
 
 def normalize_database_url(url: str) -> str:
+    # Hosts such as Render and Neon hand out postgres:// or postgresql:// URLs.
+    # SQLAlchemy needs the driver name to use psycopg 3.
+    for prefix in ("postgres://", "postgresql://"):
+        if url.startswith(prefix):
+            return "postgresql+psycopg://" + url[len(prefix) :]
     if not url.startswith("sqlite:///"):
         return url
     path_part = url[len("sqlite:///") :]

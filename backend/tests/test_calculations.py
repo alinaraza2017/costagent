@@ -55,3 +55,11 @@ def test_csv_formula_guard_keeps_numeric_costs():
     assert str(probe_csv_safe("+cmd")).startswith("'")
     assert str(probe_csv_safe("@SUM(A1)")).startswith("'")
     assert str(probe_csv_safe("-Vendor")).startswith("'")
+
+
+def test_hosted_postgres_urls_use_psycopg_driver():
+    from app.database import normalize_database_url
+
+    assert normalize_database_url("postgres://u:p@h:5432/db") == "postgresql+psycopg://u:p@h:5432/db"
+    assert normalize_database_url("postgresql://u:p@h/db") == "postgresql+psycopg://u:p@h/db"
+    assert normalize_database_url("postgresql+psycopg://u:p@h/db") == "postgresql+psycopg://u:p@h/db"
