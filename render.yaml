@@ -1,0 +1,29 @@
+# Render Blueprint for the CostWise AI API.
+# Render: New > Blueprint > pick this repository. Then set CORS_ORIGINS
+# to the Vercel frontend URL once you have it.
+services:
+  - type: web
+    name: costwise-api
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    # Seeds the fictional demo account if it is missing, then starts the API.
+    # --proxy-headers lets rate limits see the real client address behind Render's proxy.
+    startCommand: python -m app.seed && uvicorn app.main:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips "*"
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "false"
+      - key: BCRYPT_ROUNDS
+        value: "12"
+      - key: CORS_ORIGINS
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: LLM_API_KEY
+        sync: false
